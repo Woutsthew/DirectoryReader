@@ -38,7 +38,7 @@ namespace DirectoryReader
         {
             if (!Directory.Exists(path)) { Console.WriteLine("this path is no directory"); return; }
 
-            SF(path);
+            SearchFolder(path);
 
             ls.ForEach(f => Console.WriteLine(f.Info()));
             Console.WriteLine("\n\n\n\n");
@@ -46,39 +46,11 @@ namespace DirectoryReader
         }
         static private long SearchFolder(string folderpath)
         {
-            List<string> folders = Directory.GetDirectories(folderpath).ToList();
-            long size = 0;
-            foreach(string line in folders)
-            {
-                long sizefile = 0;
-                try
-                {
-                    Directory.GetDirectories(line);
-                    List<string> lsFile = Directory.GetFiles(line).ToList();
-                    foreach (string filename in lsFile)
-                    {
-                        objDirFile fl = new objDirFile(filename);
-                        //ls.Add(fl);
-                        sizefile += fl.size;
-                    }
-                    sizefile += SearchFolder(line);
-                    ls.Add(new objDirFile(line, sizefile, objDirFile.MimeType.Directory));
-                }
-                catch
-                {
-                    lsnonaccess.Add(new objDirFile(line, 0, objDirFile.MimeType.Directory));
-                }
-                size += sizefile;
-            }
-            return size;
-        }
-        static private long SF(string folderpath)
-        {
             long size = 0;
             try
             {
                 List<string> folders = Directory.GetDirectories(folderpath).ToList();
-                foreach(string foldername in folders) size += SF(foldername);
+                foreach(string foldername in folders) size += SearchFolder(foldername);
                 List<string> files = Directory.GetFiles(folderpath).ToList();
                 foreach (string filename in files)
                 {
