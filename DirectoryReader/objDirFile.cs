@@ -33,10 +33,10 @@ namespace DirectoryReader
             else if (vendor.Contains(ext)) mimeType = MimeType.VendorFile;
             else mimeType = MimeType.NonStandartFile;
         }
-        public objDirFile(string Name, MimeType MimeType)
+        public objDirFile(string Name, long Size, MimeType MimeType)
         {
             name = Name;
-            size = new DirectoryInfo(Name).GetFiles("*", SearchOption.AllDirectories).Sum(fl => fl.Length);
+            size = Size;
             mimeType = MimeType;
         }
 
