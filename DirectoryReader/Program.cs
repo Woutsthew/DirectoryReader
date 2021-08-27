@@ -36,7 +36,7 @@ namespace DirectoryReader
         {
             reader.SearchFolderAndFile();
             List<string> dirfilecolunms = new List<string> { "Name", "Size", "MimeType" };
-            List<string> statistics = new List<string> { "MimeType", "% from all", "Average size" };
+            List<string> statistics = new List<string> { "MimeType", "count & % from all", "Average size" };
 
             HTMLFile table = new HTMLFile(statistics);
             foreach (MimeType type in AllMimeType())
@@ -46,7 +46,7 @@ namespace DirectoryReader
                 string percent = Math.Round(ratio, 2).ToString();
                 long sumsize = tmp.Sum(fl => fl.size);
                 string averagesize = Math.Round((double)sumsize / tmp.Count, 2).ToString();
-                table.ADDRow(new List<string> { type.ToString(), percent, averagesize });
+                table.ADDRow(new List<string> { type.ToString(), $"{tmp.Count}  &  {percent}", averagesize });
             }
             foreach (MimeType type in AllMimeType())
             {
