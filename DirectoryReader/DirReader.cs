@@ -11,18 +11,18 @@ namespace DirectoryReader
     {
         public List<objDirFile> ls { get; private set; }
         public List<objDirFile> lsnonaccess { get; private set; }
-        public string directirypath { get; set; }
+        public string directorypath { get; set; }
 
         public DirReader(string directirypath)
         {
-            this.directirypath = directirypath;
+            this.directorypath = directirypath;
         }
         public void SearchFolderAndFile()
         {
-            if (!Directory.Exists(directirypath)) { Console.WriteLine("this path is no directory"); return; }
+            if (!Directory.Exists(directorypath)) { Console.WriteLine("this path is no directory"); return; }
             ls = new List<objDirFile>();
             lsnonaccess = new List<objDirFile>();
-            SearchFolder(directirypath);
+            SearchFolder(directorypath);
             ls.Reverse(); lsnonaccess.Reverse();
         }
         private long SearchFolder(string folderpath)
