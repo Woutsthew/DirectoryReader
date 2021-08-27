@@ -41,6 +41,7 @@ namespace DirectoryReader
         }
 
         public string Info() { return $"{name} {size} {mimeType}"; }
+        public List<string> InfoList() { return new List<string> { name, size.ToString(), mimeType.ToString() }; }
         public enum MimeType
         {
             Directory,
@@ -51,6 +52,14 @@ namespace DirectoryReader
             TextFile,
             VendorFile,
             NonStandartFile
+        }
+        static public List<MimeType> AllMimeType()
+        {
+            return new List<MimeType> { 
+                MimeType.Directory, MimeType.Application, 
+                MimeType.VideoFile, MimeType.AudioFile, 
+                MimeType.ImageFile, MimeType.TextFile, 
+                MimeType.VendorFile, MimeType.NonStandartFile };
         }
     }
 }

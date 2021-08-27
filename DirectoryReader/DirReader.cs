@@ -23,6 +23,7 @@ namespace DirectoryReader
             ls = new List<objDirFile>();
             lsnonaccess = new List<objDirFile>();
             SearchFolder(directirypath);
+            ls.Reverse(); lsnonaccess.Reverse();
         }
         private long SearchFolder(string folderpath)
         {
