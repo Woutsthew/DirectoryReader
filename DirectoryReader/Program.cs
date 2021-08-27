@@ -10,20 +10,22 @@ namespace DirectoryReader
 {
     class Program
     {
-        static List<objDirFile> ls;
-        static List<objDirFile> lsnonaccess;
         static void Main(string[] args)
         {
             string path = Environment.CurrentDirectory;
             string help = "you can used two command:\n1.dir - to select a directory\n2.search - run the program with the selected path";
+            DirReader reader = new DirReader(path);
             showcurrentdir(path);
             while(true)
             {
-                ls = new List<objDirFile>();
-                lsnonaccess = new List<objDirFile>();
                 string message = Console.ReadLine();
-                if (message.Contains("dir")) { path = message.Split(new char[] { ' ' }, 2).Last(); showcurrentdir(path); }
-                else if (message.Contains("search")) SearchFolderAndFile(path);
+                if (message.Contains("dir")) { reader.directirypath = message.Split(new char[] { ' ' }, 2).Last(); showcurrentdir(path); }
+                else if (message.Contains("search")) {
+                    reader.SearchFolderAndFile();
+                    reader.ls.ForEach(f => Console.WriteLine(f.Info()));
+                    Console.WriteLine("\n\n\n\n");
+                    reader.lsnonaccess.ForEach(f => Console.WriteLine(f.Info()));
+                }
                 else if (message.Contains("?") || message.Contains("help")) Console.WriteLine(help);
                 else Console.WriteLine($"\nunknown command\n{help}");
             }
@@ -33,35 +35,6 @@ namespace DirectoryReader
         {
             string mes = $"explore directory: \n{path}";
             Console.Clear(); Console.WriteLine(mes);
-        }
-        static private void SearchFolderAndFile(string path)
-        {
-            if (!Directory.Exists(path)) { Console.WriteLine("this path is no directory"); return; }
-
-            SearchFolder(path);
-
-            ls.ForEach(f => Console.WriteLine(f.Info()));
-            Console.WriteLine("\n\n\n\n");
-            lsnonaccess.ForEach(f => Console.WriteLine(f.Info()));
-        }
-        static private long SearchFolder(string folderpath)
-        {
-            long size = 0;
-            try
-            {
-                List<string> folders = Directory.GetDirectories(folderpath).ToList();
-                foreach(string foldername in folders) size += SearchFolder(foldername);
-                List<string> files = Directory.GetFiles(folderpath).ToList();
-                foreach (string filename in files)
-                {
-                    objDirFile fl = new objDirFile(filename);
-                    ls.Add(fl); size += fl.size;
-                }
-                ls.Add(new objDirFile(folderpath, size, objDirFile.MimeType.Directory));
-            }
-            catch { lsnonaccess.Add(new objDirFile(folderpath, 0, objDirFile.MimeType.Directory)); }
-
-            return size;
         }
     }
 }

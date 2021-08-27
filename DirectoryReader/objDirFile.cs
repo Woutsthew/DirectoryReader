@@ -13,18 +13,18 @@ namespace DirectoryReader
         public long size { get; private set; }
         public MimeType mimeType { get; private set; }
         #region ext
-        List<string> app = new List<string> { "exe", "lnk", "msi", "sln", "zip", "rar", "7z", "cmd" };
+        List<string> app = new List<string> { "exe", "lnk", "msi", "sln", "zip", "rar", "7z", "jar", "cmd", "bat", "script" };
         List<string> video = new List<string> { "mp4", "avi", "mkv", "mpeg", "webm" };
         List<string> audio = new List<string> { "mp3" };
-        List<string> image = new List<string> { "png", "jpg", "bmp", "gif", "webp" };
-        List<string> text = new List<string> { "txt", "dll", "css", "csv", "html", "php", "json", "xml", "py" };
+        List<string> image = new List<string> { "png", "jpg", "bmp", "gif", "webp", "ico" };
+        List<string> text = new List<string> { "txt", "dll", "ini", "sys", "inf", "cat", "info", "dat", "css", "csv", "html", "php", "json", "xml", "py", "msg" };
         List<string> vendor = new List<string> { "pdf", "doc", "docx", "pptx", "ppt", "accdb", "pub", "xlsx", "xls", "odt", "odp", "ods" };
         #endregion
         public objDirFile(string Name)
         {
             name = Name;
             size = new FileInfo(Name).Length;
-            string ext = Name.Split('.').Last();
+            string ext = Name.Split('.').Last().ToLower();
             if (app.Contains(ext)) mimeType = MimeType.Application;
             else if (video.Contains(ext)) mimeType = MimeType.VideoFile;
             else if (audio.Contains(ext)) mimeType = MimeType.AudioFile;
